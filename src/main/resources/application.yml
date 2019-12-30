@@ -4,6 +4,7 @@ spring:
     username: eg5yy
     password: 345rtrhrth
 
+
 #  jpa:
 #    show-sql: true
 #    hibernate:
@@ -27,4 +28,4 @@ activiti:
     history-level: full
     db-history-used: true
 
-
+logging:  path: C:\Users\XinBinCui\CUIXINBIN\logs
