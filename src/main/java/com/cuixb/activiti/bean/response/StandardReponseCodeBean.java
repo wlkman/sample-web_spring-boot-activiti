@@ -1,6 +1,6 @@
 package com.cuixb.activiti.bean.response;
 
-public class StandardRepCode {
+public class StandardReponseCodeBean {
 	
 	public enum ResponseCode {
 	    success("200"),

@@ -7,16 +7,14 @@ import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cuixb.activiti.bean.request.ProcessReq;
-import com.cuixb.activiti.bean.response.StandardRep;
-import com.cuixb.activiti.bean.response.StandardRepCode;
+import com.cuixb.activiti.bean.request.ProcessRequestBean;
+import com.cuixb.activiti.bean.response.StandardReponseBean;
+import com.cuixb.activiti.bean.response.StandardReponseCodeBean;
 import com.cuixb.activiti.service.ActivitiService;
 
 @RestController
@@ -27,16 +25,16 @@ public class ActivitiController {
     private ActivitiService activitiService;
 	
 	@Autowired
-	private StandardRep<?> standardRep;
+	private StandardReponseBean<?> standardRep;
 
     @RequestMapping(value="/process", method= RequestMethod.POST)
-    public StandardRep<?> startProcessInstance(@RequestBody ProcessReq processReq) {    
+    public StandardReponseBean<?> startProcessInstance(@RequestBody ProcessRequestBean processReq) {    
         try {
         	activitiService.startProcess(processReq);
-        	standardRep.setCode(StandardRepCode.ResponseCode.success.getCode());
-        	standardRep.setMessage(StandardRepCode.ResponseCode.success.name());
+        	standardRep.setCode(StandardReponseCodeBean.ResponseCode.success.getCode());
+        	standardRep.setMessage(StandardReponseCodeBean.ResponseCode.success.name());
 		} catch (Exception e) {
-			standardRep.setCode(StandardRepCode.ResponseCode.fail.getCode());
+			standardRep.setCode(StandardReponseCodeBean.ResponseCode.fail.getCode());
         	standardRep.setMessage(e.getMessage());
         	logger.error(e.getStackTrace().toString());
 		}

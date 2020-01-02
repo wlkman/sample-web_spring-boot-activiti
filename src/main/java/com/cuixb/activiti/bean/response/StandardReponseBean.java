@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Component
 @Data
-public class StandardRep<T> {
+public class StandardReponseBean<T> {
 	private String code;
 	private String message;
 	private T body;

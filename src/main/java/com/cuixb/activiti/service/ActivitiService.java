@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cuixb.activiti.bean.request.ProcessReq;
+import com.cuixb.activiti.bean.request.ProcessRequestBean;
 
 @Service
 public class ActivitiService {
@@ -26,7 +26,7 @@ public class ActivitiService {
     HistoryService historyService;
 
 	@Transactional
-    public void startProcess(ProcessReq processReq) {
+    public void startProcess(ProcessRequestBean processReq) {
 		String processInstanceId =runtimeService.startProcessInstanceByKey(processReq.getProcessName()).getProcessInstanceId();
 		runtimeService.updateBusinessKey(processInstanceId, processReq.getBusinessKey());
 	}
