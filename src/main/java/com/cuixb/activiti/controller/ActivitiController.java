@@ -36,6 +36,10 @@ import com.cuixb.activiti.bean.response.StandardReponseCodeBean;
 import com.cuixb.activiti.bean.response.StandardResponseBean;
 import com.cuixb.activiti.service.ActivitiService;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 public class ActivitiController {
 	
@@ -57,6 +61,11 @@ public class ActivitiController {
     HistoryService historyService;
     
 
+    @ApiOperation(value = "startProcess", notes = "start a process")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "processName", value = "workflow name", dataType = "string", paramType = "query", example = "EsmtcPlaceOrderProcess", required = true),
+        @ApiImplicitParam(name = "businessKey", value = "your order id", dataType = "string", paramType = "query", example = "367966", required = true)
+    })
     @RequestMapping(value="/startProcess", method= RequestMethod.POST)
     public StandardResponseBean<?> startProcessInstance(@RequestBody ProcessRequestBean processReq) {    
         try {
@@ -72,6 +81,10 @@ public class ActivitiController {
 		return standardRep;
     }
     
+    @ApiOperation(value = "getPendingTasks", notes = "get pending tasks")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "assignee", value = "staff's account", dataType = "string", paramType = "query", example = "cxinbin", required = false)
+    })
     @RequestMapping(value="/getPendingTasks", method= RequestMethod.POST)
     public StandardResponseBean<List<GetPendingTasksResponseBean>> getPendingTasks(@RequestBody GetTasksRequestBean getTasksRequestBean) {
     	StandardResponseBean<List<GetPendingTasksResponseBean>> standardRep = new StandardResponseBean<List<GetPendingTasksResponseBean>>();
@@ -98,6 +111,10 @@ public class ActivitiController {
         return standardRep;
     }
     
+    @ApiOperation(value = "getHistoricalTasks", notes = "get historical tasks")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "assignee", value = "staff's account", dataType = "string", paramType = "query", example = "cxinbin", required = false)
+    })
     @RequestMapping(value="/getHistoricalTasks", method= RequestMethod.POST)
     public StandardResponseBean<List<GetHistoricalTasksResponseBean>> getHistoricalTasks(@RequestBody GetTasksRequestBean getTasksRequestBean) {
     	StandardResponseBean<List<GetHistoricalTasksResponseBean>> standardRep = new StandardResponseBean<List<GetHistoricalTasksResponseBean>>();
@@ -127,6 +144,11 @@ public class ActivitiController {
         return standardRep;
     }
     
+    @ApiOperation(value = "completeTask", notes = "complete this task")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "taskId", value = "task id", dataType = "string", paramType = "query", example = "15005", required = true),
+        @ApiImplicitParam(name = "userId", value = "staff's account", dataType = "string", paramType = "query", example = "cxinbin", required = true)
+    })
     @RequestMapping(value="/completeTask", method= RequestMethod.POST)
     public StandardResponseBean<?> completeTask(@RequestBody CompleteTaskRequestBean completeTaskRequestBean) {    
         try {
@@ -142,6 +164,10 @@ public class ActivitiController {
 		return standardRep;
     }
     
+    @ApiOperation(value = "showWorkFlowImage", notes = "get image of current workflow")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "taskId", value = "task id", dataType = "string", paramType = "path", example = "10004", required = true)
+    })
     @RequestMapping(value = "/showWorkFlowImage/{taskId}", method = RequestMethod.GET)  
 	@ResponseBody
 	public void showImage(@PathVariable String taskId,HttpServletRequest request,HttpServletResponse response) throws Exception {
