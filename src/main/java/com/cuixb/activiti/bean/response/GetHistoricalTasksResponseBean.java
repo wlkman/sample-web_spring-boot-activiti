@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class GetTasksResponseBean {
+public class GetHistoricalTasksResponseBean {
 	 private String id;
      private String name;
      private String assignee;
@@ -13,4 +13,5 @@ public class GetTasksResponseBean {
      private Date endTime;
      private Date claimTime;
      private Long workTimeInMillis;
+     private String businessKey;
 }

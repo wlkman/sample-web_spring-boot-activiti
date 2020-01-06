@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cuixb.activiti.bean.request.CompleteTaskRequestBean;
 import com.cuixb.activiti.bean.request.GetTasksRequestBean;
 import com.cuixb.activiti.bean.request.ProcessRequestBean;
-import com.cuixb.activiti.bean.response.GetTasksResponseBean;
+import com.cuixb.activiti.bean.response.GetHistoricalTasksResponseBean;
+import com.cuixb.activiti.bean.response.GetPendingTasksResponseBean;
 import com.cuixb.activiti.bean.response.StandardReponseCodeBean;
 import com.cuixb.activiti.bean.response.StandardResponseBean;
 import com.cuixb.activiti.service.ActivitiService;
@@ -48,17 +49,18 @@ public class ActivitiController {
     }
     
     @RequestMapping(value="/getPendingTasks", method= RequestMethod.POST)
-    public StandardResponseBean<List<GetTasksResponseBean>> getPendingTasks(@RequestBody GetTasksRequestBean getTasksRequestBean) {
-    	StandardResponseBean<List<GetTasksResponseBean>> standardRep = new StandardResponseBean<List<GetTasksResponseBean>>();
+    public StandardResponseBean<List<GetPendingTasksResponseBean>> getPendingTasks(@RequestBody GetTasksRequestBean getTasksRequestBean) {
+    	StandardResponseBean<List<GetPendingTasksResponseBean>> standardRep = new StandardResponseBean<List<GetPendingTasksResponseBean>>();
     	try {
     		List<Task> tasks = activitiService.getPendingTasks(getTasksRequestBean.getAssignee());
-            List<GetTasksResponseBean> dtos = new ArrayList<GetTasksResponseBean>();
+            List<GetPendingTasksResponseBean> dtos = new ArrayList<GetPendingTasksResponseBean>();
             for (Task task : tasks) {
-            	GetTasksResponseBean getTasksResponseBean = new GetTasksResponseBean();
+            	GetPendingTasksResponseBean getTasksResponseBean = new GetPendingTasksResponseBean();
             	getTasksResponseBean.setAssignee(task.getAssignee());
             	getTasksResponseBean.setCreateTime(task.getCreateTime());
             	getTasksResponseBean.setId(task.getId());
             	getTasksResponseBean.setName(task.getName());
+            	getTasksResponseBean.setBusinessKey(activitiService.getBusinessKeyByProcessInstanceId(task.getProcessInstanceId()));
                 dtos.add(getTasksResponseBean);
             }
     		standardRep.setCode(StandardReponseCodeBean.ResponseCode.success.getCode());
@@ -73,13 +75,13 @@ public class ActivitiController {
     }
     
     @RequestMapping(value="/getHistoricalTasks", method= RequestMethod.POST)
-    public StandardResponseBean<List<GetTasksResponseBean>> getHistoricalTasks(@RequestBody GetTasksRequestBean getTasksRequestBean) {
-    	StandardResponseBean<List<GetTasksResponseBean>> standardRep = new StandardResponseBean<List<GetTasksResponseBean>>();
+    public StandardResponseBean<List<GetHistoricalTasksResponseBean>> getHistoricalTasks(@RequestBody GetTasksRequestBean getTasksRequestBean) {
+    	StandardResponseBean<List<GetHistoricalTasksResponseBean>> standardRep = new StandardResponseBean<List<GetHistoricalTasksResponseBean>>();
     	try {
     		List<HistoricTaskInstance> tasks = activitiService.getHistoricalTasks(getTasksRequestBean.getAssignee());
-            List<GetTasksResponseBean> dtos = new ArrayList<GetTasksResponseBean>();
+            List<GetHistoricalTasksResponseBean> dtos = new ArrayList<GetHistoricalTasksResponseBean>();
             for (HistoricTaskInstance task : tasks) {
-            	GetTasksResponseBean getTasksResponseBean = new GetTasksResponseBean();
+            	GetHistoricalTasksResponseBean getTasksResponseBean = new GetHistoricalTasksResponseBean();
             	getTasksResponseBean.setAssignee(task.getAssignee());
             	getTasksResponseBean.setClaimTime(task.getClaimTime());
             	getTasksResponseBean.setCreateTime(task.getCreateTime());
@@ -87,6 +89,7 @@ public class ActivitiController {
             	getTasksResponseBean.setId(task.getId());
             	getTasksResponseBean.setName(task.getName());
             	getTasksResponseBean.setWorkTimeInMillis(task.getWorkTimeInMillis());
+            	getTasksResponseBean.setBusinessKey(activitiService.getBusinessKeyByProcessInstanceId(task.getProcessInstanceId()));
                 dtos.add(getTasksResponseBean);
             }
     		standardRep.setCode(StandardReponseCodeBean.ResponseCode.success.getCode());

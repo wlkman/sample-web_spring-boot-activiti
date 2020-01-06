@@ -5,6 +5,7 @@ import java.util.List;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
@@ -59,6 +60,11 @@ public class ActivitiService {
 		taskService.claim(completeTaskRequestBean.getTaskId(), completeTaskRequestBean.getUserId());
 		//complete task
 		taskService.complete(completeTaskRequestBean.getTaskId());
+	}
+	
+	public String getBusinessKeyByProcessInstanceId(String processInstanceId) {
+		List<HistoricProcessInstance> historicProcessInstance= historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).list();
+		return historicProcessInstance.get(0).getBusinessKey();
 	}
 
 }
