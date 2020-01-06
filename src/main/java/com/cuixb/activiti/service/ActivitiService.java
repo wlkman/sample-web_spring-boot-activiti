@@ -63,8 +63,8 @@ public class ActivitiService {
 	}
 	
 	public String getBusinessKeyByProcessInstanceId(String processInstanceId) {
-		List<HistoricProcessInstance> historicProcessInstance= historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).list();
-		return historicProcessInstance.get(0).getBusinessKey();
+		HistoricProcessInstance historicProcessInstance= historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+		return historicProcessInstance.getBusinessKey();
 	}
 
 }
