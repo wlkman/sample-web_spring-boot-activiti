@@ -27,5 +27,6 @@ activiti:
     database-schema-update: true
     history-level: full
     db-history-used: true
-
+    check-process-definitions: false  # 自动部署验证设置:true-开启（默认）、false-关闭
+    
 logging:  path: C:\Users\XinBinCui\CUIXINBIN\logs
