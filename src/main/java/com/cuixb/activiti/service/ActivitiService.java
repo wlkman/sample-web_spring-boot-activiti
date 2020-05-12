@@ -1,6 +1,8 @@
 package com.cuixb.activiti.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RuntimeService;
@@ -59,7 +61,11 @@ public class ActivitiService {
 		//set assignee before completing task
 		taskService.claim(completeTaskRequestBean.getTaskId(), completeTaskRequestBean.getUserId());
 		//complete task
-		taskService.complete(completeTaskRequestBean.getTaskId());
+		if(completeTaskRequestBean.getVariables().isEmpty()) {
+			taskService.complete(completeTaskRequestBean.getTaskId());
+		}else {
+			taskService.complete(completeTaskRequestBean.getTaskId(), completeTaskRequestBean.getVariables());
+		}
 	}
 	
 	public String getBusinessKeyByProcessInstanceId(String processInstanceId) {

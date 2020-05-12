@@ -4,7 +4,6 @@ spring:
     username: eg5yy
     password: 345rtrhrth
 
-
 #  jpa:
 #    show-sql: true
 #    hibernate:
